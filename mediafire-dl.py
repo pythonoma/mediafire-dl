@@ -6,7 +6,7 @@ from tqdm import tqdm
 import sys
 import os
 import errno
-
+import time
 
 chunk_size = 1024 # 32KB
 os_path_separator = os.path.sep
@@ -85,7 +85,10 @@ class MediafireDownloader:
                 # Folder is after #
                 folder_key = mediafire_link[hash_pos:]
             else:
-                folder_key = mediafire_link[folder_slug_start:]
+		folder_slug_end = mediafire_link.find('/', folder_slug_start)
+		if folder_slug_end < 0:
+			folder_slug_end = len(mediafire_link)
+                folder_key = mediafire_link[folder_slug_start:folder_slug_end]
             self.download_folder(folder_key, '')
 
 
@@ -122,7 +125,7 @@ class MediafireDownloader:
             fn_start = cd.find(file_name_key) + len(file_name_key)
             fn_end = cd.find('"', fn_start)
             self.dl_file_name = cd[fn_start:fn_end]
-        ss  = os.path.join(cwd, parent)
+        ss = os.path.join(cwd, parent)
         make_sure_path_exists(ss)
         self.dl_file_full_path = os.path.join(cwd, parent, self.dl_file_name)
 
@@ -137,8 +140,9 @@ class MediafireDownloader:
             output_file = open(self.dl_file_full_path, 'wb')
 
         if self.dl_existing_file_size == self.dl_total_file_size:
-            print('File "' + self.dl_file_full_path + '" Already downloaded.')
+            print('File "' + str(os.path.join(parent, self.dl_file_name)) + '" Already downloaded.')
             print('-------------------------')
+            time.sleep(2)
         else:
             print('Resuming "' + self.dl_file_full_path + '".')
             # Add header to resume download
@@ -154,6 +158,7 @@ class MediafireDownloader:
                 pbar.update(chunk_size)
 
             output_file.close()
+            pbar.close()
             print('Finished Downloading "' + self.dl_file_full_path + '".')
             print('-------------------------')
             # except:
@@ -161,7 +166,7 @@ class MediafireDownloader:
 
 
 def main():
-    print(sys.argv)
+    #print(sys.argv)
     if len(sys.argv) < 2:
         print('Use: mediafire.py mediafre_link_1 mediafire_link_2')
         exit()
