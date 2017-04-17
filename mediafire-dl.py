@@ -159,6 +159,8 @@ class MediafireDownloader:
 
             output_file.close()
             pbar.close()
+            pbar.refresh()
+
             print('Finished Downloading "' + self.dl_file_full_path + '".')
             print('-------------------------')
             # except:
