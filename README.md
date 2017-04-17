@@ -1,6 +1,6 @@
 Installation:
 
-    $ sudo pip install bs4 requests tqdm
+    $ pip install bs4 requests tqdm
     $ git clone https://github.com/mohamed-elsaka/mediafire-dl.git
 
 Usage:
