@@ -1,4 +1,6 @@
-import requests, os
+#!/usr/bin/python
+
+import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 import sys
@@ -159,8 +161,14 @@ class MediafireDownloader:
 
 
 def main():
+    print(sys.argv)
+    if len(sys.argv) < 2:
+        print('Use: mediafire.py mediafre_link_1 mediafire_link_2')
+        exit()
+
     mf = MediafireDownloader()
-    for mediafire_link in sys.argv:
+
+    for mediafire_link in sys.argv[1:]:
          mf.download(mediafire_link)
     #mf.download(mf_folder_url)
 
