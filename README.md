@@ -1,3 +1,8 @@
+Installation:
+
+    $ pip install bs4 requests tqdm
+    $ git clone https://github.com/mohamed-elsaka/mediafire-dl.git
+
 Usage:
 
     python mediafire-dl.py mediafire_link_1 mediafire_link_2 mediafire_link_3
